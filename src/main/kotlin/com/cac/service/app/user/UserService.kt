@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service
 class UserService(
     @Autowired private val userRepository: UserRepository
 ) {
-    fun save(user: User) =
+    fun save(user: User) {
         userRepository.save(user.toUserView())
+    }
 
     fun findByUserName(userName: String) =
         userRepository.findByUserName(userName)?.toUser()
+
+    fun findAllUsers() =
+            userRepository.findAll().map { it.toUser() }
 
     private fun User.toUserView() =
         UserView(this.id, this.userName, this.password, this.email, this.phoneNumber)
